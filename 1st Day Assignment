@@ -54,6 +54,11 @@ scrape_configs:
    ******** In Vagrant centos node ****************
     
     Install mysql
+     
+     mysql -u root -p
+    
+CREATE USER 'exporter'@'localhost' IDENTIFIED BY 'Jugran@12' WITH MAX_USER_CONNECTIONS 3;
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
     
    mkdir MySQL Exporter
    cd MySQL Exporter
@@ -70,6 +75,23 @@ mysqld_exporter-0.10.0.linux-amd64
 [root@worker2 mysqld_exporter-0.10.0.linux-amd64]# ls
 LICENSE  mysqld_exporter  NOTICE
 [root@worker2 mysqld_exporter-0.10.0.linux-amd64]# 
+
+ 
+  206  export DATA_SOURCE_NAME='exporter:Jugran@12@(192.168.33.14:3306)/'
+  207  echo ${DATA_SOURCE_NAME}
+  208  ./mysqld_exporter -e DATA_SOURCE_NAME=${DATA_SOURCE_NAME}
+  
+  root@worker2 mysqld_exporter-0.10.0.linux-amd64]# ./mysqld_exporter 
+INFO[0000] Starting mysqld_exporter (version=0.10.0, branch=master, revision=80680068f15474f87847c8ee8f18a2939a26196a)  source="mysqld_exporter.go:460"
+INFO[0000] Build context (go=go1.8.1, user=root@3b0154cd9e8e, date=20170425-11:24:12)  source="mysqld_exporter.go:461"
+ERRO[0000] Error pinging mysqld: Error 1130: Host 'worker2' is not allowed to connect to this MySQL server  source="mysqld_exporter.go:268"
+INFO[0000] Listening on :9104                            source="mysqld_exporter.go:479"
+
+
+
+
+
+
 
 
 
